@@ -15,9 +15,9 @@ const mapErrorToStatus = (message: string): number => {
 };
 
 export const registerFileRoute = (router: Router, logger: Logger): void => {
-  router.post("/files/extract", upload.single("file"), (req, res) => {
+  router.post("/files/extract", upload.single("file"), async (req, res) => {
     try {
-      const result = extractUploadedFile(req.file, logger);
+      const result = await extractUploadedFile(req.file, logger);
       res.json(result);
     } catch (error) {
       const message = error instanceof Error ? error.message : "unknown_error";

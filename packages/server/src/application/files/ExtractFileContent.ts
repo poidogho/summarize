@@ -12,10 +12,10 @@ export type ExtractedContent = {
   content: string;
 };
 
-export const extractUploadedFile = (
+export const extractUploadedFile = async (
   file: UploadedFile | undefined,
   logger: Logger
-): ExtractedContent => {
+): Promise<ExtractedContent> => {
   try {
     const validFile = validateFile(file);
     logger.info("file_extract_start", {
@@ -23,7 +23,7 @@ export const extractUploadedFile = (
       mimetype: validFile.mimetype,
     });
 
-    const content = extractFileContent(validFile);
+    const content = await extractFileContent(validFile);
     logger.info("file_extract_complete", {
       filename: validFile.originalname,
       bytes: validFile.size,

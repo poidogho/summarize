@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import type { Logger } from "../logging/logger.js";
 import { registerHealthRoute } from "./health-route.js";
 import { registerFileRoute } from "./file-route.js";
@@ -7,6 +8,11 @@ import { registerScrapeRoute } from "./scrape-route.js";
 export const createApp = (logger: Logger) => {
   const app = express();
 
+  app.use(
+    cors({
+      origin: ["http://localhost:3000"],
+    })
+  );
   app.use(express.json());
   app.use((req, _res, next) => {
     logger.info("request", {
