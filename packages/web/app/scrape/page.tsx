@@ -16,6 +16,7 @@ type ScrapeResponse = {
   url: string;
   title: string | null;
   description: string | null;
+  content?: string | null;
 };
 
 const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000";
@@ -122,6 +123,18 @@ export default function ScrapePage() {
                   </Typography>
                   <Typography>
                     {mutation.data.description ?? "(none)"}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Content preview
+                  </Typography>
+                  <Typography>
+                    {mutation.data.content
+                      ? `${mutation.data.content.slice(0, 500)}${
+                          mutation.data.content.length > 500 ? "..." : ""
+                        }`
+                      : "(none)"}
                   </Typography>
                 </Box>
               </Stack>

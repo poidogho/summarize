@@ -20,6 +20,7 @@
     "multer": "^2.0.2",
     "node-fetch": "3",
     "pdf-parse": "^2.4.5",
+    "playwright": "^1.57.0",
     "word-extractor": "^1.0.4"
   },
   "devDependencies": {
