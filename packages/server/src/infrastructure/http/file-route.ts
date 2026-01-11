@@ -17,7 +17,12 @@ const mapErrorToStatus = (message: string): number => {
 export const registerFileRoute = (router: Router, logger: Logger): void => {
   router.post("/files/extract", upload.single("file"), async (req, res) => {
     try {
-      const result = await extractUploadedFile(req.file, logger);
+      const tone =
+        req.body?.tone === 'casual' || req.body?.tone === 'professional'
+          ? req.body.tone
+          : 'professional';
+
+      const result = await extractUploadedFile(req.file, logger, tone);
       res.json(result);
     } catch (error) {
       const message = error instanceof Error ? error.message : "unknown_error";

@@ -4,6 +4,7 @@ import type { Logger } from "../logging/logger.js";
 import { registerHealthRoute } from "./health-route.js";
 import { registerFileRoute } from "./file-route.js";
 import { registerScrapeRoute } from "./scrape-route.js";
+import { registerResumeRoute } from "./resume-route.js";
 
 export const createApp = (logger: Logger) => {
   const app = express();
@@ -26,6 +27,7 @@ export const createApp = (logger: Logger) => {
   registerHealthRoute(router);
   registerFileRoute(router, logger);
   registerScrapeRoute(router, logger);
+  registerResumeRoute(router, logger);
   app.use("/api", router);
 
   return app;

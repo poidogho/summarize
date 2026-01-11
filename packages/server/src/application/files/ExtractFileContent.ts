@@ -12,17 +12,22 @@ export type ExtractedContent = {
   size: number;
   content: string;
   summary: string;
+  keyAreas: string[];
 };
+
+type Tone = 'professional' | 'casual';
 
 export const extractUploadedFile = async (
   file: UploadedFile | undefined,
-  logger: Logger
+  logger: Logger,
+  tone: Tone = 'professional'
 ): Promise<ExtractedContent> => {
   try {
     const validFile = validateFile(file);
     logger.info('file_extract_start', {
       filename: validFile.originalname,
       mimetype: validFile.mimetype,
+      tone,
     });
 
     const content = await extractFileContent(validFile);
@@ -32,7 +37,7 @@ export const extractUploadedFile = async (
     });
 
     // Summarize the extracted content
-    const summary = await summarizeContent(content, logger);
+    const { summary, keyAreas } = await summarizeContent(content, logger, tone);
 
     return {
       filename: validFile.originalname,
@@ -40,6 +45,7 @@ export const extractUploadedFile = async (
       size: validFile.size,
       content,
       summary,
+      keyAreas,
     };
   } catch (error) {
     logger.error('file_extract_failed', {

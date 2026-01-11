@@ -18,8 +18,12 @@ const ALLOWED_MIME_TYPES = new Set([
 ]);
 
 const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024;
+export const MAX_RESUME_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 
-export const validateFile = (file?: UploadedFile): UploadedFile => {
+export const validateFile = (
+  file?: UploadedFile,
+  maxSizeBytes: number = MAX_FILE_SIZE_BYTES
+): UploadedFile => {
   if (!file) {
     throw new Error('file_required');
   }
@@ -28,7 +32,7 @@ export const validateFile = (file?: UploadedFile): UploadedFile => {
     throw new Error('file_type_not_allowed');
   }
 
-  if (file.size <= 0 || file.size > MAX_FILE_SIZE_BYTES) {
+  if (file.size <= 0 || file.size > maxSizeBytes) {
     throw new Error('file_size_invalid');
   }
 
